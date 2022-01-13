@@ -118,19 +118,17 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(inProps, ref) {
       ref={ref}
       {...other}
     >
-      {children
-        .slice(0, maxAvatars)
-        .map((child) => {
-          return React.cloneElement(child, {
-            className: clsx(child.props.className, classes.avatar),
-            style: {
-              marginLeft,
-              ...child.props.style,
-            },
-            variant: child.props.variant || variant,
-          });
-        })}
-         {extraAvatars ? (
+      {children.slice(0, maxAvatars).map((child) => {
+        return React.cloneElement(child, {
+          className: clsx(child.props.className, classes.avatar),
+          style: {
+            marginLeft,
+            ...child.props.style,
+          },
+          variant: child.props.variant || variant,
+        });
+      })}
+      {extraAvatars ? (
         <AvatarGroupAvatar
           ownerState={ownerState}
           className={classes.avatar}
