@@ -42,7 +42,6 @@ const AvatarGroupRoot = styled('div', {
     },
   },
   display: 'flex',
-  flexDirection: 'row-reverse',
 }));
 
 const AvatarGroupAvatar = styled(Avatar, {
@@ -119,7 +118,19 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(inProps, ref) {
       ref={ref}
       {...other}
     >
-      {extraAvatars ? (
+      {children
+        .slice(0, maxAvatars)
+        .map((child) => {
+          return React.cloneElement(child, {
+            className: clsx(child.props.className, classes.avatar),
+            style: {
+              marginLeft,
+              ...child.props.style,
+            },
+            variant: child.props.variant || variant,
+          });
+        })}
+         {extraAvatars ? (
         <AvatarGroupAvatar
           ownerState={ownerState}
           className={classes.avatar}
@@ -131,19 +142,6 @@ const AvatarGroup = React.forwardRef(function AvatarGroup(inProps, ref) {
           +{extraAvatars}
         </AvatarGroupAvatar>
       ) : null}
-      {children
-        .slice(0, maxAvatars)
-        .reverse()
-        .map((child) => {
-          return React.cloneElement(child, {
-            className: clsx(child.props.className, classes.avatar),
-            style: {
-              marginLeft,
-              ...child.props.style,
-            },
-            variant: child.props.variant || variant,
-          });
-        })}
     </AvatarGroupRoot>
   );
 });
